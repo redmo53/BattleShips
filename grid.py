@@ -3,26 +3,26 @@ import pyxel
 class Grid :
 
     DIRECTION_NORTH = 0
-    DIRECTION_EAST = 1
+    DIRECTION_EAST  = 1
     DIRECTION_SOUTH = 2
-    DIRECTION_WEST = 3
-    HOVER_FILLED = 0
-    HOVER_BORDERED = 1
+    DIRECTION_WEST  = 3
+    HOVER_FILLED    = 0
+    HOVER_BORDERED  = 1
 
-    def __init__(self, size : int, legend : bool = True, hoverDisplay : int = HOVER_FILLED) :
+    def __init__(self, size : int, center : list, legend : bool = True, hoverDisplay : int = HOVER_FILLED) :
         self.__size = size
         self.__data = [[None for j in range(self.__size)] for i in range(self.__size)]
         self.__w = 17 * self.__size + 1
         self.__h = 17 * self.__size + 1
-        self.__x = 128 - int(self.__size / 2 * 17)
-        self.__y = 128 - int(self.__size / 2 * 17)
+        self.__x = center[0] - int(self.__size / 2 * 17)
+        self.__y = center[1] - int(self.__size / 2 * 17)
         self.__legend = legend
         self.__hoverDisplay = hoverDisplay
         self.__hoveredDirection = Grid.DIRECTION_SOUTH
         self.__resetHover()
         self.__resetSelect()
         
-    def display(self) :
+    def draw(self) :
         '''
         Affiche la grille
         '''
@@ -212,17 +212,13 @@ class Grid :
         '''
         Ajoute ou enlève de la liste des sélections
         '''
-        cell = [x, y]
-        selected = False
+        cell = (x, y)
         if (cell in self.__selected) :
             self.__selected.remove(cell)
         else :
             self.__selected.append(cell)
-            selected = True
         
         self.__isSelected = len(self.__selected) > 0
-
-        return selected
              
 
     def __resetSelect(self) :
