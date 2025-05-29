@@ -230,11 +230,39 @@ class Grid :
         '''
         self.__selected = []
         self.__isSelected = False
+
+    def onShipDrag(self, ship : Ship) :
+        number = ship.getNumber()
+        # Dé-remplissage
+        for i in range(self.__size) :
+            for j in range(self.__size) :
+                if self.__data[i][j] == number :
+                    self.__data[i][j] = None
     
     def onShipDrop(self, ship : Ship) :
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
             if len(self.__hovered) == ship.getSize() :
-                x, y = self.__getCellCoordinates((pyxel.mouse_x - self.__x - 1) // 17, (pyxel.mouse_y - self.__y - 1) // 17)
-                ship.move(x - 1, y - 1)
-                return True
+                # Est-ce que les cases sont libres ?
+                allCellsAreFree = True
+                for (i, j) in self.__hovered :
+                    if self.__data[i][j] != None :
+                        allCellsAreFree = False
+                        break
+
+                if allCellsAreFree :
+                    number = ship.getNumber()
+
+                    # Remplissage
+                    for (i, j) in self.__hovered :
+                        self.__data[i][j] = number
+
+                    # On superpose le bateau sur les cases
+                    if ship.getDirection() == Ship.DIRECTION_EAST or ship.getDirection() == Ship.DIRECTION_SOUTH :
+                        x, y = self.__getCellCoordinates((pyxel.mouse_x - self.__x - 1) // 17, (pyxel.mouse_y - self.__y - 1) // 17)
+                    elif ship.getDirection() == Ship.DIRECTION_NORTH :
+                        x, y = self.__getCellCoordinates((pyxel.mouse_x - self.__x - 1) // 17, (pyxel.mouse_y - ((ship.getSize() - 1) * 17) - self.__y - 1) // 17)
+                    else :
+                        x, y = self.__getCellCoordinates((pyxel.mouse_x - ((ship.getSize() - 1) * 17) - self.__x - 1) // 17, (pyxel.mouse_y - self.__y - 1) // 17)
+                    ship.move(x - 1, y - 1)
+                    return True
         return False

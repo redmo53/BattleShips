@@ -8,8 +8,9 @@ class Ship :
     DIRECTION_SOUTH = 2
     DIRECTION_WEST  = 3
 
-    def __init__(self, size : int, x : int, y : int) :
+    def __init__(self, size : int, number : int, x : int, y : int) :
         self.__size = size
+        self.__number = number
         self.__cells = [ 1 for i in range(self.__size) ]
         self.__placed = False
         self.__dragged = False
@@ -20,7 +21,10 @@ class Ship :
         self.__w = self.__size * 17 + 1
         self.__h = 18
         self.__direction = Ship.DIRECTION_EAST
-    
+
+    def getNumber(self) :
+        return self.__number
+
     def getSize(self) :
         return self.__size
     
@@ -31,13 +35,15 @@ class Ship :
         self.__x = x
         self.__y = y
 
-    def manageDragNDrop(self, onDrop : callable) :
+    def manageDragNDrop(self, onDrag : callable, onDrop : callable) :
         dropped = False
 
         # Bouton pressé
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h and pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) :
             self.__placed = False
             self.__dragged = True
+            onDrag(self)
+
         # Bouton relâché
         elif self.__dragged and pyxel.btnr(pyxel.MOUSE_BUTTON_LEFT) :
             self.__dragged = False
@@ -79,6 +85,9 @@ class Ship :
     def isDragged(self) :
         return self.__dragged
     
+    def isPlaced(self) :
+        return self.__placed
+    
     def draw(self) :
         if self.__placed :
             pyxel.rect(self.__x, self.__y, self.__w, self.__h, 14)
@@ -94,6 +103,8 @@ class Ship :
                     pyxel.line(self.__x + i * 17, self.__y, self.__x + i * 17, self.__y + 17, 7)
 
     
-    # TODO Empêcher les superpositions 
     # TODO Griser ou barrer les noms des bateaux quand ils sont tous placés
-    # TODO Faire apparaître le bouton de validation 
+    # TODO Faire une vraie fenêtre de placement
+    # TODO Afficher aide au survol (clic droit)
+    # TODO Dégriser ou faire apparaître le bouton de validation 
+    # TODO Rendre les texte traductible

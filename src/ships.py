@@ -18,14 +18,14 @@ class Ships :
             if Ships.SHIPS_COUNT_BY_DIFFICULTY[size][i] > 0 :
                 shipsGroupsCount += 1
                 for j in range(Ships.SHIPS_COUNT_BY_DIFFICULTY[size][i]) :
-                    self.__ships.append(Ship(i + 1, 330 + j * ((i + 1) * 17 + 10), shipsGroupsCount * 40 + 14))
+                    self.__ships.append(Ship(i + 1, len(self.__ships) + 1, 330 + j * ((i + 1) * 17 + 10), shipsGroupsCount * 40 + 14))
 
     def update(self, grid : Grid) :
         isDragging = False
         draggingSize = 0
         draggingDirection = 0
         for i in range(len(self.__ships)) :
-            if self.__ships[i].manageDragNDrop(grid.onShipDrop) :
+            if self.__ships[i].manageDragNDrop(grid.onShipDrag, grid.onShipDrop) :
                 isDragging = True
                 draggingSize = self.__ships[i].getSize()
                 draggingDirection = self.__ships[i].getDirection()
