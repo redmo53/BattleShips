@@ -1,6 +1,6 @@
 import pyxel
-from text import text
-from forms import *
+from src.text import text
+from src.forms import *
 
 class Params :
     
@@ -42,12 +42,6 @@ class Params :
 
     def getTimeByTurn(self) :
         return self.__timeByTurn
-    
-    def isReady(self) :
-        return self.__ready
-    
-    def open(self) :
-        self.__ready = False
 
     def __close(self) :
         self.__ready = True
@@ -59,6 +53,7 @@ class Params :
         return self.__ready
 
     def draw(self) :
+        pyxel.rect(129, 31, 256, 196, 13)
         pyxel.rectb(128, 30, 256, 196, 7)
         pyxel.rect(129, 31, 254, 194, 0)
         pyxel.bltm(178, 40, 0, 0, 0, 155, 18)

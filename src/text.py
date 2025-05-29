@@ -2,7 +2,8 @@ from PIL import Image, ImageFont, ImageDraw
 import pyxel
 
 class Text(object):
-    '''a unicode pixel font builder for pyxel
+    '''
+    a unicode pixel font builder for pyxel
     '''
 
     def __init__(self, font_path: str, original_size: int, multipler: int = 8, mode: str = '1'):
@@ -13,7 +14,7 @@ class Text(object):
                 path to TrueTypeFont file (*.ttf)
             original_size:  
                 Since we are using a pixel font, there must be a most suitable original size(e.g. 12px, 16px)
-            multipler: (default=10)
+            multipler: (default=8)
                 Sampling multipler, bigger number means better quality (and slower speed).
                 For some other using you can use 1 for a blurry output (not recommanded)
             mode: (default='1')
@@ -124,4 +125,4 @@ class Text(object):
                         pyxel.pset(cur_x + col, cur_y + row, color)
             cur_x += len(c[0])
 
-text = Text("Pixel-UniCode.ttf", 16, 2)
+text = Text("assets/Pixel-UniCode.ttf", 16, 2)

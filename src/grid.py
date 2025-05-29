@@ -1,4 +1,5 @@
 import pyxel
+from src.ship import Ship
 
 class Grid :
 
@@ -18,8 +19,8 @@ class Grid :
         self.__y = center[1] - int(self.__size / 2 * 17)
         self.__legend = legend
         self.__hoverDisplay = hoverDisplay
-        self.__hoveredDirection = Grid.DIRECTION_SOUTH
-        self.__resetHover()
+        self.__hoveredDirection = Grid.DIRECTION_EAST
+        self.resetHover()
         self.__resetSelect()
         
     def draw(self) :
@@ -69,23 +70,25 @@ class Grid :
         ''' 
         return (self.__x + i * 17 + 1, self.__y + j * 17 + 1)
     
+    def setHoverDisplay(self, hoverDisplay : int) :
+        self.__hoverDisplay = hoverDisplay
+
     def hover(self) :
         '''
         Gère si une case est survolée par la souris
         '''
-        self.__resetHover()
+        self.resetHover()
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
             self.__hovered.append(((pyxel.mouse_x - self.__x - 1) // 17, (pyxel.mouse_y - self.__y - 1) // 17))
             self.__isHovered = True
     
-    def hoverLine(self, length : int = 0) :
+    def hoverLine(self, length : int = 0, direction : int = DIRECTION_EAST) :
         '''
         Affiche une ligne au survol de la souris
         '''
-        self.__resetHover()
+        self.resetHover()
 
-        if pyxel.btnp(pyxel.MOUSE_BUTTON_RIGHT) :
-            self.__hoveredDirection = (self.__hoveredDirection + 1) % 4
+        self.__hoveredDirection = direction
 
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
             
@@ -125,7 +128,7 @@ class Grid :
         '''
         Affiche une croix au survol de la souris
         '''
-        self.__resetHover()
+        self.resetHover()
 
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
             
@@ -155,7 +158,7 @@ class Grid :
         '''
         Affiche un carré au survol de la souris (taille minimum : 2)
         '''
-        self.__resetHover()
+        self.resetHover()
 
         if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
             
@@ -179,12 +182,13 @@ class Grid :
             self.__hovered = list(set(self.__hovered))
             self.__isHovered = True
 
-    def __resetHover(self) :
+    def resetHover(self) :
         '''
         Annule le survol
         '''
         self.__hovered = []
         self.__isHovered = False
+        self.__hoveredDirection = Grid.DIRECTION_EAST
 
     def select(self, multiSelect : bool = False) :
         '''
@@ -220,10 +224,17 @@ class Grid :
         
         self.__isSelected = len(self.__selected) > 0
              
-
     def __resetSelect(self) :
         '''
         Annule la selection
         '''
         self.__selected = []
         self.__isSelected = False
+    
+    def onShipDrop(self, ship : Ship) :
+        if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h :
+            if len(self.__hovered) == ship.getSize() :
+                x, y = self.__getCellCoordinates((pyxel.mouse_x - self.__x - 1) // 17, (pyxel.mouse_y - self.__y - 1) // 17)
+                ship.move(x - 1, y - 1)
+                return True
+        return False

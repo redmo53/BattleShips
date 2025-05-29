@@ -1,5 +1,5 @@
 import pyxel
-from text import text
+from src.text import text
 
 class Button :
 

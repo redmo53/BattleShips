@@ -10,6 +10,14 @@
             "problemMatcher": [
                 "$python"
             ]
+        },
+        {
+            "label": "Lancer le test",
+            "type": "shell",
+            "command": "python -m pyxel run tests/test.py",
+            "problemMatcher": [
+                "$python"
+            ]
         }
     ]
 }
