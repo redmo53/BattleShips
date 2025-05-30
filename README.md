@@ -2,6 +2,10 @@
 
 Jeu de bataille navale "améliorée" en Python utilisant le moteur pyxel
 
+![Illustration de la jaquette](./docs/img/00.png)
+
+| 😱 ChatGPT... 😭
+
 ## Lancement du jeu
 
 1.  Installer [pyxel](https://github.com/kitao/pyxel/blob/main/docs/README.fr.md#comment-installer)
