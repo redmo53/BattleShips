@@ -29,7 +29,9 @@ class App:
                 self.currentPart = App.PARTS_2_SHIPS_PLACEMENT
 
         if self.currentPart == App.PARTS_2_SHIPS_PLACEMENT :
-            self.ships.update(self.playerGrid)
+            if self.ships.update(self.playerGrid) :
+
+                self.currentPart = App.PARTS_3_PLAYER_TURN
 
     def draw(self) :
         pyxel.cls(0)

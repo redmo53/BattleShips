@@ -3,7 +3,7 @@ from src.text import text
 
 class Button :
 
-    def __init__(self, x : int, y : int, label : str, onClick : callable) :
+    def __init__(self, x : int, y : int, label : str, onClick : callable, enabled : bool = True) :
         self.__label = label
         self.__x = x
         self.__y = y
@@ -12,31 +12,42 @@ class Button :
         self.__h = 21
         self.__onClick = onClick
         self.__clicked = False
+        self.__enabled = enabled
+
+    def setEnabled(self, enabled : bool) :
+        self.__enabled = enabled
+        
+    def isEnabled(self) :
+        return self.__enabled
 
     def update(self) :
-        # Bouton pressé
-        if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h and pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) :
-            self.__clicked = True
-        # Bouton relâché
-        elif self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h and pyxel.btnr(pyxel.MOUSE_BUTTON_LEFT) :
-            self.__clicked = False
-            self.__onClick()
-        else :
-            self.__clicked = False
+        if self.__enabled :
+            # Bouton pressé
+            if self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h and pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) :
+                self.__clicked = True
+            # Bouton relâché
+            elif self.__x < pyxel.mouse_x < self.__x + self.__w and self.__y < pyxel.mouse_y < self.__y + self.__h and pyxel.btnr(pyxel.MOUSE_BUTTON_LEFT) :
+                self.__clicked = False
+                self.__onClick()
+            else :
+                self.__clicked = False
 
     def draw(self) :
+        # Couleur
+        color = 7 if self.__enabled else 13
+        
         # Ombre
-        pyxel.rect(self.__x + 2, self.__y + 2, self.__w, self.__h, 13 if self.__clicked else 7)
+        pyxel.rect(self.__x + 2, self.__y + 2, self.__w, self.__h, 13 if self.__clicked else color)
 
         # Bouton
         if self.__clicked :
             pyxel.rect(self.__x + 2, self.__y + 2, self.__w - 2, self.__h - 2, 0)
-            pyxel.rectb(self.__x + 1, self.__y + 1, self.__w, self.__h, 7)
-            text.draw(self.__x + 13, self.__y + 7, self.__label)
+            pyxel.rectb(self.__x + 1, self.__y + 1, self.__w, self.__h, color)
+            text.draw(self.__x + 13, self.__y + 7, self.__label, color)
         else :
             pyxel.rect(self.__x + 1, self.__y + 1, self.__w - 2, self.__h - 2, 0)
-            pyxel.rectb(self.__x, self.__y, self.__w, self.__h, 7)
-            text.draw(self.__x + 12, self.__y + 6, self.__label)
+            pyxel.rectb(self.__x, self.__y, self.__w, self.__h, color)
+            text.draw(self.__x + 12, self.__y + 6, self.__label, color)
         
         
 

@@ -101,10 +101,3 @@ class Ship :
             else :
                 for i in range(1, self.__size) :
                     pyxel.line(self.__x + i * 17, self.__y, self.__x + i * 17, self.__y + 17, 7)
-
-    
-    # TODO Griser ou barrer les noms des bateaux quand ils sont tous placés
-    # TODO Faire une vraie fenêtre de placement
-    # TODO Afficher aide au survol (clic droit)
-    # TODO Dégriser ou faire apparaître le bouton de validation 
-    # TODO Rendre les texte traductible
