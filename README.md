@@ -1,10 +1,25 @@
 # BattleShips
 
+
 Jeu de bataille navale "améliorée" en Python utilisant le moteur pyxel
 
 ![Illustration de la jaquette](./docs/img/00.png)
 
 | 😱 ChatGPT... 😭
+
+## Avancement
+
+![20%](https://progress-bar.xyz/20?title=Avancement%20du%20projet)
+
+- [x] Paramètres de jeu
+- [x] Placement des bateaux - Joueur
+- [ ] Placement des bateaux - Ordinateur
+- [ ] Tour du joueur
+- [ ] Tour de l'ordinateur
+- [ ] Règles de bases
+- [ ] Règles améliorées
+- [ ] Fin du jeu
+- [ ] Multi-joueurs LAN
 
 ## Lancement du jeu
 

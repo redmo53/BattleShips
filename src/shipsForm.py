@@ -1,10 +1,10 @@
 import pyxel
 from src.text import text
-from src.grid import Grid
-from src.ship import Ship   
-from src.forms import Button  
+from src.grid import Grid 
+from src.forms import Button
+from src.ship import Ship
 
-class Ships :
+class ShipsForm :
 
     SHIPS_COUNT_BY_DIFFICULTY = {
         8  : [0, 3, 2, 0, 0],
@@ -16,14 +16,17 @@ class Ships :
         self.__ships = []
         shipsGroupsCount = 0
         for i in range(5) :
-            if Ships.SHIPS_COUNT_BY_DIFFICULTY[size][i] > 0 :
+            if ShipsForm.SHIPS_COUNT_BY_DIFFICULTY[size][i] > 0 :
                 shipsGroupsCount += 1
-                for j in range(Ships.SHIPS_COUNT_BY_DIFFICULTY[size][i]) :
+                for j in range(ShipsForm.SHIPS_COUNT_BY_DIFFICULTY[size][i]) :
                     self.__ships.append(Ship(i + 1, len(self.__ships) + 1, 330 + j * ((i + 1) * 17 + 10), shipsGroupsCount * 40 + 14))
         
         self.__validateButton = Button(392 - text.getLength("Lancer la partie") // 2 - 12, 210, "Lancer la partie", self.__close, False)
         self.__ready = False
         self.__dragging = False
+
+    def getShips(self) :
+        return self.__ships
 
     def update(self, grid : Grid) :
         self.__dragging = False
@@ -62,7 +65,7 @@ class Ships :
         self.__ready = True
 
     def draw(self) :
-        pyxel.rect(316, 11, 153, 236, 7)
+        pyxel.rect(317, 12, 153, 236, 7)
         pyxel.rect(316, 11, 151, 234, 0)
         pyxel.rectb(315, 10, 153, 236, 7)
 
@@ -89,6 +92,3 @@ class Ships :
 
         if self.__dragging :
             text.draw(192 - text.getLength("(Clic-droit pour pivoter le navire)") // 2, 240, "(Clic-droit pour pivoter le navire)")
-
-
-    # TODO Rendre les texte traductible
