@@ -5,6 +5,7 @@ from src.params import Params
 from src.shipsForm  import ShipsForm
 from src.ship  import Ship
 
+# Application
 class App:
 
     PARTS_1_GAME_PARAMS     = 1
